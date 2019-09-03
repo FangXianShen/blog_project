@@ -8,7 +8,6 @@ from django.utils.text import slugify
 
 from comments.forms import CommentForm
 from .models import Post, Category, Tag
-from django.db.models import Q
 
 """
 请使用下方的模板引擎方式。
@@ -298,16 +297,3 @@ class TagView(ListView):
     def get_queryset(self):
         tag = get_object_or_404(Tag, pk=self.kwargs.get('pk'))
         return super(TagView, self).get_queryset().filter(tags=tag)
-
-
-def search(request):
-    q = request.GET.get('q')
-    error_msg = ''
-
-    if not q:
-        error_msg = "请输入关键词"
-        return render(request, 'blog/index.html', {'error_msg': error_msg})
-
-    post_list = Post.objects.filter(Q(title__icontains=q) | Q(body__icontains=q))
-    return render(request, 'blog/index.html', {'error_msg': error_msg,
-                                               'post_list': post_list})
