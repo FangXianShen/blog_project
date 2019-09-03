@@ -2,21 +2,21 @@ from fabric.api import env, run
 
 from fabric.operations import sudo
 
-GIT_REPO = "https://github.com/FangXianShen/blog_project.git" 
+GIT_REPO = "https://github.com/FangXianShen/blog_project.git"
 
-env.user = 'root' 
+env.user = 'root'
 env.password = '970626HeJY'
 
-# ÌîĞ´Äã×Ô¼ºµÄÖ÷»ú¶ÔÓ¦µÄÓòÃû
+# å¡«å†™ä½ è‡ªå·±çš„ä¸»æœºå¯¹åº”çš„åŸŸå
 env.hosts = ['114.55.92.22']
 
-# Ò»°ãÇé¿öÏÂÎª 22 ¶Ë¿Ú£¬Èç¹û·Ç 22 ¶Ë¿ÚÇë²é¿´ÄãµÄÖ÷»ú·şÎñÌá¹©ÉÌÌá¹©µÄĞÅÏ¢
+# ä¸€èˆ¬æƒ…å†µä¸‹ä¸º 22 ç«¯å£ï¼Œå¦‚æœé 22 ç«¯å£è¯·æŸ¥çœ‹ä½ çš„ä¸»æœºæœåŠ¡æä¾›å•†æä¾›çš„ä¿¡æ¯
 env.port = '22'
 
 
 def deploy():
-        source_folder = '/home/fangz/sites/fangshiyu.top/blog_project' 
-        run('cd %s && git pull' % source_folder) 
+        source_folder = '/home/fangz/sites/fangshiyu.top/blog_project'
+        run('cd %s && git pull' % source_folder)
         run("""
             cd {} &&
             ../env/bin/pip install -r requirements.txt &&
@@ -24,5 +24,5 @@ def deploy():
             ../env/bin/python3 manage.py makemigrations &&
             ../env/bin/python3 manage.py migrate
             """.format(source_folder))
-        sudo('systemctl restart blog.service') 
+        sudo('systemctl restart blog.service')
         sudo('service nginx reload')
